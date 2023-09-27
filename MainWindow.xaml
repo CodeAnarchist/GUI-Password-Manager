@@ -4,13 +4,93 @@
         xmlns:mui="http://firstfloorsoftware.com/ModernUI"
         
         Title="Password Manager" Height="600" Width="800">
-    <Grid>
-        <Grid Name="HomeScreen">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="1*"/>
-                <ColumnDefinition Width="1*"/>
-            </Grid.ColumnDefinitions>
+    <Window.Resources>
+        <!-- Define a custom style for your buttons -->
+        <Style x:Key="ButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="#2196F3"/>
+            <!-- Set the default background color -->
+            <Setter Property="Foreground" Value="White"/>
+            <!-- Set the default text color -->
+            <Setter Property="Margin" Value="20,0,0,0"/>
+            <Setter Property="Width" Value="120"/>
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <!-- Change the button color when the mouse is over -->
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#1976D2"/>
+                                <!-- Scale the button on hover -->
+                                <Setter Property="RenderTransform">
+                                    <Setter.Value>
+                                        <ScaleTransform ScaleX="1.05" ScaleY="1.05"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                            <!-- Reset the scale when the mouse leaves -->
+                            <Trigger Property="IsMouseOver" Value="False">
+                                <Setter Property="RenderTransform">
+                                    <Setter.Value>
+                                        <ScaleTransform ScaleX="1" ScaleY="1"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="TextBoxStyle" TargetType="TextBox">
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="5"/>
+            <Setter Property="Margin" Value="30,10,0,0"/>
+            <Setter Property="Width" Value="200"/>
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Background" Value="#F5F5F5"/>
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="BorderBrush" Value="#CCCCCC"/>
+            <Setter Property="FontSize" Value="14"/>
+        </Style>
 
+        <!-- Define a custom style for your TextBlock -->
+        <Style x:Key="TextBlockStyle" TargetType="TextBlock">
+            <Setter Property="Margin" Value="30,10,0,0"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="VerticalAlignment" Value="Top"/>
+            <Setter Property="FontSize" Value="16"/>
+        </Style>
+        <Style x:Key="PasswordBoxStyle" TargetType="PasswordBox">
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="5"/>
+            <Setter Property="Margin" Value="30,10,0,0"/>
+            <Setter Property="Width" Value="200"/>
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Background" Value="#F5F5F5"/>
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="BorderBrush" Value="#CCCCCC"/>
+            <Setter Property="FontSize" Value="14"/>
+        </Style>
+
+    </Window.Resources>
+    <Grid>
+        <!-- Grid Definitions -->
+
+        <!-- Home Screen -->
+        <Grid Name="HomeScreen">
             <Grid.RowDefinitions>
                 <RowDefinition Height="1*"/>
                 <RowDefinition Height="1*"/>
@@ -21,64 +101,128 @@
                 <RowDefinition Height="1*"/>
             </Grid.RowDefinitions>
 
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+            <!-- Grid Definitions -->
             <TextBlock Text="Welcome to the Password Manager!" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="24" Grid.ColumnSpan="2" Grid.Row="0"/>
+            <Button Content="Add Password" Click="AddPassword_Click" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Row="1" Grid.Column="0" Margin="20,10,0,0" Style="{StaticResource ButtonStyle}">
+            <Button.ToolTip>
+                <ToolTip>
+                    <StackPanel>
+                        <TextBlock FontWeight="Bold">Add Password</TextBlock>
+                        <TextBlock>Add a new password entry to your vault.</TextBlock>
+                    </StackPanel>
+                </ToolTip>
+            </Button.ToolTip>
+            </Button>
+            <!-- Other Buttons -->
+            <Button Content="Delete Password" Click="DeletePassword_Click" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Row="2" Grid.Column="0" Margin="20,0,0,0" Style="{StaticResource ButtonStyle}">
+                <Button.ToolTip>
+                    <ToolTip>
+                        <StackPanel>
+                            <TextBlock FontWeight="Bold">Delete Password</TextBlock>
+                            <TextBlock>Remove a password from your vault.</TextBlock>
+                        </StackPanel>
+                    </ToolTip>
+                </Button.ToolTip>
+            </Button>
 
-            <Button Content="Add Password" Click="AddPassword_Click" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Row="1" Grid.Column="0" Margin="20,0,0,0" />
-            <Button Content="Delete Password" Click="DeletePassword_Click" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Row="2" Grid.Column="0" Margin="20,0,0,0" />
-            <Button Content="View Archive" Click="ViewArchive_Click" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Row="3" Grid.Column="0" Margin="20,0,0,0" />
-            <Button Content="Generate Password" Click="GeneratePassword_Click" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Row="4" Grid.Column="0" Margin="20,0,0,0" />
-            <Button Content="View Log" Click="ViewLog_Click" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Row="5" Grid.Column="0" Margin="20,0,0,0" />
-            <Button Content="Exit" Click="Exit_Click" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Row="6" Grid.Column="0" Margin="20,0,0,0" />
+            <Button Content="View Archive" Click="ViewArchive_Click" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Row="3" Grid.Column="0" Margin="20,0,0,0" Style="{StaticResource ButtonStyle}">
+                <Button.ToolTip>
+                    <ToolTip>
+                        <StackPanel>
+                            <TextBlock FontWeight="Bold">View Archive</TextBlock>
+                            <TextBlock>Access your archived passwords.</TextBlock>
+                        </StackPanel>
+                    </ToolTip>
+                </Button.ToolTip>
+            </Button>
+
+            <Button Content="Generate Password" Click="GeneratePassword_Click" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Row="4" Grid.Column="0" Margin="20,0,0,0" Style="{StaticResource ButtonStyle}">
+                <Button.ToolTip>
+                    <ToolTip>
+                        <StackPanel>
+                            <TextBlock FontWeight="Bold">Generate Password</TextBlock>
+                            <TextBlock>Generate a random password.</TextBlock>
+                        </StackPanel>
+                    </ToolTip>
+                </Button.ToolTip>
+            </Button>
+
+            <Button Content="View Log" Click="ViewLog_Click" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Row="5" Grid.Column="0" Margin="20,0,0,0" Style="{StaticResource ButtonStyle}">
+                <Button.ToolTip>
+                    <ToolTip>
+                        <StackPanel>
+                            <TextBlock FontWeight="Bold">View Log</TextBlock>
+                            <TextBlock>View the activity log.</TextBlock>
+                        </StackPanel>
+                    </ToolTip>
+                </Button.ToolTip>
+            </Button>
+
+            <Button Content="Exit" Click="Exit_Click" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Row="6" Grid.Column="0" Margin="20,0,0,0" Style="{StaticResource ButtonStyle}">
+                <Button.ToolTip>
+                    <ToolTip>
+                        <StackPanel>
+                            <TextBlock FontWeight="Bold">Exit</TextBlock>
+                            <TextBlock>Exit the Password Manager application.</TextBlock>
+                        </StackPanel>
+                    </ToolTip>
+                </Button.ToolTip>
+            </Button>
+
         </Grid>
         <Frame Name="AddPasswordFrame" Margin="0, 40, 0, 0" Visibility="Collapsed">
             <Frame.Content>
                 <Grid Name="AddPasswordScreen">
-                    <TextBlock Text="Add Password" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="24" />
-                    <TextBlock Text="Username:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="30,60,0,0" />
-                    <TextBox Name="UsernameTextBox" HorizontalAlignment="Left" VerticalAlignment="Top" Width="200" Margin="30,80,0,0" />
-                    <TextBlock Text="Password:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="30,110,0,0" />
-                    <PasswordBox Name="PasswordBox" HorizontalAlignment="Left" VerticalAlignment="Top" Width="200" Margin="30,130,0,0" />
-                    <TextBlock Text="Confirm Password:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="30,160,0,0" />
-                    <PasswordBox Name="ConfirmPasswordBox" HorizontalAlignment="Left" VerticalAlignment="Top" Width="200" Margin="30,180,0,0" />
-                    <TextBlock Text="Website URL:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="30,210,0,0" />
-                    <TextBox Name="WebsiteTextBox" HorizontalAlignment="Left" VerticalAlignment="Top" Width="200" Margin="30,230,0,0" />
-                    <Button Content="Save Password" Click="SavePassword_Click" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120" Height="30" Margin="30,260,0,0" />
-                    <Button Content="Cancel" Click="Cancel_Click" HorizontalAlignment="Left" VerticalAlignment="Top" Width="80" Height="30" Margin="160,260,0,0" />
+                    <TextBlock Style="{StaticResource TextBlockStyle}" Text="Add Password" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="24" />
+                    <TextBlock Style="{StaticResource TextBlockStyle}" Text="Username:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="30,60,0,0" />
+                    <TextBox Style="{StaticResource TextBoxStyle}" Name="UsernameTextBox" HorizontalAlignment="Left" VerticalAlignment="Top" Width="200" Margin="30,80,0,0" />
+                    <TextBlock Style="{StaticResource TextBlockStyle}" Text="Password:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="30,110,0,0" />
+                    <PasswordBox Style="{StaticResource PasswordBoxStyle}" Name="PasswordBox" HorizontalAlignment="Left" VerticalAlignment="Top" Width="200" Margin="30,130,0,0" />
+                    <TextBlock Style="{StaticResource TextBlockStyle}" Text="Confirm Password:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="30,160,0,0" />
+                    <PasswordBox Style="{StaticResource PasswordBoxStyle}" Name="ConfirmPasswordBox" HorizontalAlignment="Left" VerticalAlignment="Top" Width="200" Margin="30,180,0,0" />
+                    <TextBlock Style="{StaticResource TextBlockStyle}" Text="Website URL:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="30,210,0,0" />
+                    <TextBox Style="{StaticResource TextBoxStyle}" Name="WebsiteTextBox" HorizontalAlignment="Left" VerticalAlignment="Top" Width="200" Margin="30,230,0,0" />
+                    <Button Style="{StaticResource ButtonStyle}" Content="Save Password" Click="SavePassword_Click" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120" Height="30" Margin="30,260,0,0" />
+                    <Button Style="{StaticResource ButtonStyle}" Content="Cancel" Click="Cancel_Click" HorizontalAlignment="Left" VerticalAlignment="Top" Width="80" Height="30" Margin="160,260,0,0" />
                 </Grid>
             </Frame.Content>
         </Frame>
         <Frame Name="DeletePasswordFrame" Margin="0, 40, 0, 0" Visibility="Collapsed">
             <Frame.Content>
                 <Grid Name="DeletePasswordScreen">
-                    <TextBlock Text="Delete Password" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="24" />
-                    <TextBlock Text="Website URL:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="30,60,0,0" />
-                    <TextBox Name="DeleteWebsiteTextBox" HorizontalAlignment="Left" VerticalAlignment="Top" Width="200" Margin="30,80,0,0" />
-                    <Button Content="Delete Password" Click="DeletePassword_Click" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120" Height="30" Margin="30,110,0,0" />
-                    <Button Content="Cancel" Click="Cancel_Click" HorizontalAlignment="Left" VerticalAlignment="Top" Width="80" Height="30" Margin="160,110,0,0" />
+                    <TextBlock Style="{StaticResource TextBlockStyle}" Text="Delete Password" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="24" />
+                    <TextBlock Style="{StaticResource TextBlockStyle}" Text="Website URL:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="30,60,0,0" />
+                    <TextBox Style="{StaticResource TextBoxStyle}" Name="DeleteWebsiteTextBox" HorizontalAlignment="Left" VerticalAlignment="Top" Width="200" Margin="30,80,0,0" />
+                    <Button Style="{StaticResource ButtonStyle}" Content="Delete Password" Click="DeletePassword_Click" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120" Height="30" Margin="30,110,0,0" />
+                    <Button Style="{StaticResource ButtonStyle}" Content="Cancel" Click="Cancel_Click" HorizontalAlignment="Left" VerticalAlignment="Top" Width="80" Height="30" Margin="160,110,0,0" />
                 </Grid>
             </Frame.Content>
         </Frame>
         <Frame Name="ViewArchiveFrame" Margin="0, 40, 0, 0" Visibility="Collapsed">
             <Frame.Content>
                 <Grid Name="ViewArchiveScreen">
-                    <TextBlock Text="Password Archive" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="24" />
+                    <TextBlock Style="{StaticResource TextBlockStyle}" Text="Password Archive" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="24" />
                     <ListView Name="PasswordListView" HorizontalAlignment="Left" VerticalAlignment="Top" Width="400" Height="200" Margin="30,60,0,0">
                     </ListView>
-                    <Button Content="Refresh" Click="Refresh_Click" HorizontalAlignment="Left" VerticalAlignment="Top" Width="80" Height="30" Margin="30,280,0,0" />
-                    <Button Content="Cancel" Click="Cancel_Click" HorizontalAlignment="Left" VerticalAlignment="Top" Width="80" Height="30" Margin="160,280,0,0" />
+                    <Button Style="{StaticResource ButtonStyle}" Content="Refresh" Click="Refresh_Click" HorizontalAlignment="Left" VerticalAlignment="Top" Width="80" Height="30" Margin="30,280,0,0" />
+                    <Button Style="{StaticResource ButtonStyle}" Content="Cancel" Click="Cancel_Click" HorizontalAlignment="Left" VerticalAlignment="Top" Width="80" Height="30" Margin="160,280,0,0" />
                 </Grid>
             </Frame.Content>
         </Frame>
         <Frame Name="GeneratePasswordFrame" Margin="0, 40, 0, 0" Visibility="Collapsed">
             <Frame.Content>
                 <Grid Name="GeneratePasswordScreen">
-                    <TextBlock Text="Generate Random Password" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="24" />
-                    <TextBlock Text="Password Length:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="30,60,0,0" />
-                    <TextBox Name="PasswordLengthTextBox" HorizontalAlignment="Left" VerticalAlignment="Top" Width="80" Margin="30,80,0,0" />
-                    <Button Content="Generate" Click="GeneratePassword_Click" HorizontalAlignment="Left" VerticalAlignment="Top" Width="80" Height="30" Margin="120,80,0,0" />
-                    <TextBlock Name="GeneratedPasswordTextBlock" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="30,140,0,0" />
-                    <Button Content="Copy" Click="CopyGeneratePassword_Click" HorizontalAlignment="Left" VerticalAlignment="Top" Width="80" Height="30" Margin="120,160,0,0" />
-                    <Button Content="Cancel" Click="Cancel_Click" HorizontalAlignment="Left" VerticalAlignment="Top" Width="80" Height="30" Margin="220,160,0,0" />
+                    <TextBlock Style="{StaticResource TextBlockStyle}" Text="Generate Random Password" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="24" />
+                    <TextBlock Style="{StaticResource TextBlockStyle}" Text="Password Length:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="30,60,0,0" />
+                    <TextBox Style="{StaticResource TextBoxStyle}" Name="PasswordLengthTextBox" HorizontalAlignment="Left" VerticalAlignment="Top" Width="80" Margin="30,80,0,0" />
+                    <Button Style="{StaticResource ButtonStyle}" Content="Generate" Click="GeneratePassword_Click" HorizontalAlignment="Left" VerticalAlignment="Top" Width="80" Height="30" Margin="120,80,0,0" />
+                    <TextBlock Style="{StaticResource TextBlockStyle}" Name="GeneratedPasswordTextBlock" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="30,140,0,0" />
+                    <Button Style="{StaticResource ButtonStyle}" Content="Copy" Click="CopyGeneratePassword_Click" HorizontalAlignment="Left" VerticalAlignment="Top" Width="80" Height="30" Margin="120,160,0,0" />
+                    <Button Style="{StaticResource ButtonStyle}" Content="Cancel" Click="Cancel_Click" HorizontalAlignment="Left" VerticalAlignment="Top" Width="80" Height="30" Margin="220,160,0,0" />
                 </Grid>
             </Frame.Content>
         </Frame>
@@ -92,13 +236,16 @@
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
 
-                    <TextBlock Text="View Log" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="24" Grid.Row="0" />
+                    <TextBlock Style="{StaticResource TextBlockStyle}" Text="View Log" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="24" Grid.Row="0" />
                     <TextBox Name="LogTextBox" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextWrapping="Wrap" Margin="30,60,0,0" IsReadOnly="True" 
                      ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Auto" Grid.Row="0" />
-                    <Button Content="Refresh" Click="ViewLog_Click" HorizontalAlignment="Left" VerticalAlignment="Top" Width="80" Height="30" Margin="30,10,0,0" Grid.Row="1" />
-                    <Button Content="Cancel" Click="Cancel_Click" HorizontalAlignment="Left" VerticalAlignment="Top" Width="80" Height="30" Margin="160,10,0,0" Grid.Row="1" />
+                    <Button Style="{StaticResource ButtonStyle}" Content="Refresh" Click="ViewLog_Click" HorizontalAlignment="Left" VerticalAlignment="Top" Width="80" Height="30" Margin="30,10,0,0" Grid.Row="1" />
+                    <Button Style="{StaticResource ButtonStyle}" Content="Cancel" Click="Cancel_Click" HorizontalAlignment="Left" VerticalAlignment="Top" Width="80" Height="30" Margin="160,10,0,0" Grid.Row="1" />
                 </Grid>
             </Frame.Content>
         </Frame>
+        <Grid HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="10">
+            <TextBlock Text="Created by @CodeAnarchist" MouseLeftButtonDown="OpenWebsite_Click"/>
+        </Grid>
     </Grid>
 </Window>

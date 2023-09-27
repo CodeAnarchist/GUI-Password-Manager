@@ -48,6 +48,9 @@ The Password Manager application is designed to help users securely manage their
 ## Upcoming Improvements
 - Future updates will include enhancements to the user interface for improved usability and aesthetics.
 
+## Updates
+- **[09/26/2023]:** Improved the user interface with new button styles and animations.
+
 ## Project Repository
 - The base project can be found in the [CodeAnarchist/Password-Manager](https://github.com/CodeAnarchist/Password-Manager) repository.
 - For more detailed information, including how password encryption and storage are handled, please refer to the base project's documentation.

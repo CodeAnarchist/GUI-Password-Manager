@@ -10,6 +10,7 @@ using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
+using System.Windows.Input;
 
 namespace PWEngine
 {
@@ -35,6 +36,7 @@ namespace PWEngine
 
                     if (VerifyMasterPassword(masterPassword))
                     {
+                        Console.WriteLine("correct master");
                         verified = true;
                         InitializeComponent();
 
@@ -42,6 +44,8 @@ namespace PWEngine
                     else
                     {
                         MessageBox.Show("Invalid master password. Please try again.");
+                        this.Close();
+                        return;
                     }
                 }
             }
@@ -55,7 +59,6 @@ namespace PWEngine
                 InitializeComponent();
 
             }
-
             LoadDatabase(resetDatabase);
         }
 
@@ -64,6 +67,8 @@ namespace PWEngine
             MasterPasswordWindow masterPasswordWindow = new MasterPasswordWindow();
             masterPasswordWindow.ShowDialog();
             return masterPasswordWindow.MasterPassword;
+
+
         }
         private void LoadDatabase(bool reset)
         {
@@ -117,9 +122,17 @@ namespace PWEngine
 
         private bool VerifyMasterPassword(string inputPassword)
         {
+            masterPasswordHash = File.ReadAllBytes(MasterPasswordFileName);
             byte[] inputPasswordHash = HashPassword(inputPassword);
-
-            return StructuralComparisons.StructuralEqualityComparer.Equals(inputPasswordHash, masterPasswordHash);
+            //verify that master pw is equal to master pw hash
+            if (StructuralComparisons.StructuralEqualityComparer.Equals(inputPasswordHash, masterPasswordHash))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         private byte[] HashPassword(string password)
@@ -773,6 +786,12 @@ namespace PWEngine
             }
         
 
+        private void OpenWebsite_Click(object sender, MouseButtonEventArgs e)
+        {
+            //footer
+            string websiteUrl = "https://github.com/CodeAnarchist";
+            System.Diagnostics.Process.Start(websiteUrl);
+        }
         private class PasswordEntry
         {
             public string Username { get; set; }
